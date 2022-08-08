@@ -19,6 +19,8 @@ steps:
       env:
         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         ATLASSIAN_CLIENT_ID: $(AtlassianClientId)
+        BITBUCKET_USERNAME: $(BitbucketUsername)
+        BITBUCKET_PASSWORD: $(BitbucketPassword)
         ATLASSIAN_CLIENT_SECRET: $(AtlassianClientSecret)
         JIRA_STATE: "${{ parameters.JiraState }}"
         JIRA_ENVIRONMENT: "${{ parameters.JiraEnvironment }}"
