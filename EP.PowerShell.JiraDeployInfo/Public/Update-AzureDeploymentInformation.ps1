@@ -118,12 +118,12 @@ function Update-AzureDeploymentInformation {
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]
-        $BitbucketWorkspace = $env:Build_Repository_Uri.Split('/')[3],
+        $BitbucketWorkspace = $env:BUILD_REPOSITORY_URI.Split('/')[3],
 
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]
-        $RepositoryName = $env:Build_Repository_Uri.Split('/')[4],
+        $RepositoryName = $env:BUILD_REPOSITORY_URI.Split('/')[4],
         
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
@@ -137,7 +137,7 @@ function Update-AzureDeploymentInformation {
         [string] $AzureChangeUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_traceability/runview/changes?currentRunId=$($env:BUILD_BUILDID)&__rt=fps",
 
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$env:Build_SourceBranchName?pagelen=50"
+        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$env:BUILD_SOURCEBRANCHNAME?pagelen=50"
 
         
     )
