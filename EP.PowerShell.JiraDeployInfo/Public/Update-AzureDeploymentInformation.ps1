@@ -144,7 +144,8 @@ function Update-AzureDeploymentInformation {
 
     $jiraIds = @()
     $jiraIds += (Get-JiraIDsFromBitbucketCommits -Username $BitBucketUsername -Password $BitBucketPassword -BitBucketCommitsUrl $BitBucketCommitsUrl)
-
+    Write-Debug("[JiraIDs] " + $jiraIds)
+    
     $splatVars = @{
         JiraDomain              = $JiraDomain
         AtlassianClientId       = $AtlassianClientId
