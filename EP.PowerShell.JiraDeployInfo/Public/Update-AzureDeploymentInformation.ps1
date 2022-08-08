@@ -60,13 +60,13 @@ function Update-AzureDeploymentInformation {
         [ValidateNotNullOrEmpty()]
         [string] $JiraDomain,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
-        [string] $BitBucketUsername,
+        [string] $BitBucketUsername =  $env:BITBUCKET_USERNAME,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
-        [string] $BitBucketPassword,
+        [string] $BitBucketPassword = $env:BITBUCKET_PASSWORD,
         
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
         [string] $AtlassianClientId = "$env:ATLASSIAN_CLIENT_ID", 
