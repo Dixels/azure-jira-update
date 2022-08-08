@@ -1,4 +1,4 @@
-function Get-JiraIDsFromAzureChanges {
+function Get-JiraIDsFromBitbucketCommits {
     param (
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
         [string] $Username,
