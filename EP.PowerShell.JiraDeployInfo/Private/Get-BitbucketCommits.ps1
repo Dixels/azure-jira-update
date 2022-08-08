@@ -10,6 +10,7 @@ function Get-BitbucketCommits {
         [string] $BitBucketCommitsUrl 
     )
     
+    Write-Verbose("[URL] " + $BitBucketCommitsUrl)
     $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $Username,$Password)))
     $response = Invoke-RestMethod -Uri $BitBucketCommitsUrl -Headers @{Authorization = "Basic $base64AuthInfo" } -Method Get
     Write-Verbose("Azure change response:" + ($response | ConvertTo-Json -Depth 100))
