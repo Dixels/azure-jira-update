@@ -1,10 +1,13 @@
 function Get-JiraIDsFromAzureChanges {
     param (
-        [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] $SystemAccessToken,
+        [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+        [string] $Username,
+        
+        [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+        [string] $Password,
 
-        [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] $AzureChangeUrl
+        [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+        [string] $BitBucketCommitsUrl 
     )
 
     $jiraIDs = @()
