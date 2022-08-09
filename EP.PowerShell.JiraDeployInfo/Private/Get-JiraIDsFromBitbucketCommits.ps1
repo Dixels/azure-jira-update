@@ -4,7 +4,7 @@ function Get-JiraIDsFromBitbucketCommits {
         [string] $SystemAccessToken,
         
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
-        [string] $AzureLastSuccessfulBuildUrl 
+        [string] $AzureLastSuccessfulBuildUrl,
         
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
         [string] $Username,
