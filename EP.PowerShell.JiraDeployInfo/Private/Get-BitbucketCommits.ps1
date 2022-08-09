@@ -8,6 +8,9 @@ function Get-BitbucketCommits {
 
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
         [string] $BitBucketCommitsUrl 
+        
+        [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
+        [string] $BitbucketLastBuildCommitHash 
     )
     
     Write-Verbose("[URL] " + $BitBucketCommitsUrl)
@@ -15,7 +18,10 @@ function Get-BitbucketCommits {
     $response = Invoke-RestMethod -Uri $BitBucketCommitsUrl -Headers @{Authorization = "Basic $base64AuthInfo" } -Method Get
     Write-Verbose("Azure change response:" + ($response | ConvertTo-Json -Depth 100))
 
-    $build_changes = $response.values | ForEach-Object { $_.message.Split([Environment]::NewLine)[0] }
+    $build_changes = $response.values | ForEach-Object {
+    if ($_.hash -eq $BitbucketLastBuildCommitHash) { break }
+    $_.message.Split([Environment]::NewLine)[0]
+    }
 
     Write-Verbose("[Build Changes count] " + $build_changes.Count)
     Write-Verbose("[Build Changes] " + ($build_changes | ConvertTo-Json -Depth 100))
