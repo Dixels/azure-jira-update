@@ -140,7 +140,7 @@ function Update-AzureDeploymentInformation {
         [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$($env:BUILD_SOURCEBRANCHNAME)?pagelen=100",
 
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] AzureLastSuccessfulBuildUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_apis/build/builds?definitions=$($env:SYSTEM_DEFINITIONID)&resultFilter=succeeded&statusFilter=completed&maxBuildsPerDefinition=1&queryOrder=finishTimeDescending"
+        [string] $AzureLastSuccessfulBuildUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_apis/build/builds?definitions=$($env:SYSTEM_DEFINITIONID)&resultFilter=succeeded&statusFilter=completed&maxBuildsPerDefinition=1&queryOrder=finishTimeDescending"
     )
 
     $jiraIds = @()
