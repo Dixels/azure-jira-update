@@ -137,13 +137,14 @@ function Update-AzureDeploymentInformation {
         [string] $AzureChangeUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_traceability/runview/changes?currentRunId=$($env:BUILD_BUILDID)&__rt=fps",
 
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$($env:BUILD_SOURCEBRANCHNAME)?pagelen=50"
+        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$($env:BUILD_SOURCEBRANCHNAME)?pagelen=100",
 
-        
+        [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
+        [string] AzureLastSuccessfulBuildUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_apis/build/builds?definitions=$env:SYSTEM_DEFINITIONID&resultFilter=succeeded&statusFilter=completed&maxBuildsPerDefinition=1&queryOrder=finishTimeDescending"
     )
 
     $jiraIds = @()
-    $jiraIds += (Get-JiraIDsFromBitbucketCommits -Username $BitBucketUsername -Password $BitBucketPassword -BitBucketCommitsUrl $BitBucketCommitsUrl)
+    $jiraIds += (Get-JiraIDsFromBitbucketCommits -Username $BitBucketUsername -Password $BitBucketPassword -BitBucketCommitsUrl $BitBucketCommitsUrl -SystemAccessToken $SystemAccessToken -AzureLastSuccessfulBuildUrl $AzureLastSuccessfulBuildUrl)
     Write-Debug("[JiraIDs] " + $jiraIds)
     
     $splatVars = @{
