@@ -18,6 +18,8 @@ function Get-JiraIDsFromBitbucketCommits {
 
     $jiraIDs = @()
     $last_commit = Get-AzureDevopsLastSuccessfulBuildCommit -SystemAccessToken $SystemAccessToken -AzureLastSuccessfulBuildUrl $AzureLastSuccessfulBuildUrl
+    Write-Debug("[last_commit]" + $last_commit)
+    Write-Debug("[AzureLastSuccessfulBuildUrl]" + $AzureLastSuccessfulBuildUrl)
     Get-BitbucketCommits -Username $Username -Password $Password -BitBucketCommitsUrl $BitBucketCommitsUrl -BitbucketLastBuildCommitHash $last_commit | ForEach-Object {
         Find-JiraIDs ($_) | ForEach-Object {
             $jiraIDs += $_.Value.ToUpper()
