@@ -7,7 +7,7 @@ function Get-BitbucketCommits {
         [string] $Password,
 
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
-        [string] $BitBucketCommitsUrl 
+        [string] $BitBucketCommitsUrl,
         
         [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()]
         [string] $BitbucketLastBuildCommitHash 
