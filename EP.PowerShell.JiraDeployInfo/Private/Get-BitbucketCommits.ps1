@@ -19,6 +19,7 @@ function Get-BitbucketCommits {
     Write-Verbose("Azure change response:" + ($response | ConvertTo-Json -Depth 100))
 
     $build_changes = $response.values | ForEach-Object {
+    Write-Debug("[changes]" + ($_ | ConvertTo-Json -Depth 100))
     if ($_.hash -eq $BitbucketLastBuildCommitHash) { break }
     $_.message.Split([Environment]::NewLine)[0]
     }
