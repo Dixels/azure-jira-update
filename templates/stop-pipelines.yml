@@ -1,0 +1,25 @@
+
+  jobs:
+  - job: CancelPriorDeploymentsJob
+    displayName: Cancel prior in progress pipelines
+    steps:
+      - checkout: none
+      - task: PowerShell@2
+        displayName: Powershell AzDO Invoke-RestMethod
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        inputs:
+          targetType: inline
+          script: |
+            $header = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+            $buildsUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds?api-version=6.0"
+            Write-Host "GET $buildsUrl"
+            $builds = Invoke-RestMethod -Uri $buildsUrl -Method Get -Header $header
+            $buildsToStop = $builds.value.Where({ ($_.status -eq 'inProgress') -and ($_.definition.name -eq "$(Build.DefinitionName)") -and ($_.id -lt $(Build.git )) })
+            ForEach($build in $buildsToStop)
+            {
+              $urlToCancel = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$($build.id)?api-version=6.0"
+              $body = @{ status = "cancelling" } | ConvertTo-Json
+              Write-Host "PATCH $urlToCancel"
+              Invoke-RestMethod -Uri $urlToCancel -Method Patch -Header $header -ContentType application/json -Body $body
+            }

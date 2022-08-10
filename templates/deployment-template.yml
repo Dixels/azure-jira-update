@@ -27,7 +27,7 @@ jobs:
     runOnce:
       preDeploy:
         steps:
-          - template: update-jira.yml
+          - template: templates/update-jira.yml
             parameters: 
               JiraState: "Pending"
               JiraEnvironment: ${{ parameters.JiraEnvironment }}
@@ -35,19 +35,19 @@ jobs:
       on:
         failure:
           steps:
-            - template: update-jira.yml
+            - template: templates/update-jira.yml
               parameters: 
                 JiraState: "Failed"
                 JiraEnvironment: ${{ parameters.JiraEnvironment }}
         success: 
           steps:
-            - template: update-jira.yml
+            - template: templates/update-jira.yml
               parameters: 
                 JiraState: "Successful"
                 JiraEnvironment: ${{ parameters.JiraEnvironment }}
       deploy:
         steps:
-          - template: update-jira.yml
+          - template: templates/update-jira.yml
             parameters: 
               JiraState: "InProgress"
               JiraEnvironment: ${{ parameters.JiraEnvironment }}
