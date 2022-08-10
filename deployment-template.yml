@@ -16,16 +16,13 @@ parameters:
 - name: environment
   type: string
   default: ''
-  
-variables:
-- name: envName
-  ${{ if eq(parameters.environment, '') }}:
-    value: ${{parameters.JiraEnvironment}}
-  ${{ else }}:
-    value: ${{parameters.environment}}
+
 jobs:
 - deployment: ${{ parameters.JiraEnvironment }}
-  environment: $(envName)
+  ${{ if eq(parameters.environment, '') }}:
+  environment: ${{parameters.JiraEnvironment}}
+  ${{ else }}:
+  environment: ${{parameters.environment}}
   strategy:
     runOnce:
       preDeploy:
