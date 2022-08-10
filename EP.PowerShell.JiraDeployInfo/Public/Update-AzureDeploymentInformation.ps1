@@ -137,7 +137,7 @@ function Update-AzureDeploymentInformation {
         [string] $AzureChangeUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_traceability/runview/changes?currentRunId=$($env:BUILD_BUILDID)&__rt=fps",
 
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
-        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$($env:BUILD_SOURCEBRANCHNAME)?pagelen=100",
+        [string] $BitBucketCommitsUrl = "https://api.bitbucket.org/2.0/repositories/$BitbucketWorkspace/$RepositoryName/commits/$($env:BUILD_SOURCEBRANCHNAME)?pagelen=100&fields=values.message,values.hash",
 
         [Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()]
         [string] $AzureLastSuccessfulBuildUrl = "$env:SYSTEM_COLLECTIONURI/$env:SYSTEM_TEAMPROJECT/_apis/build/builds?definitions=$($env:SYSTEM_DEFINITIONID)&resultFilter=succeeded&statusFilter=completed&maxBuildsPerDefinition=1&queryOrder=finishTimeDescending"
