@@ -1,0 +1,40 @@
+parameters:
+- name: JiraEnvironment
+  type: string
+  default: Testing
+  values:
+  - Unmapped
+  - Development
+  - Testing
+  - Staging
+  - Production
+- name: preDeploySteps
+  type: stepList
+  default: []
+- name: deploySteps
+  type: stepList
+  default: []
+- name: environment
+  type: string
+  default: ${{ parameters.JiraEnvironment }}
+
+jobs:
+- deployment: ${{ parameters.JiraEnvironment }}
+  environment: ${{ parameters.environment }}
+  strategy:
+    runOnce:
+      preDeploy:
+        steps:
+          - {template: update-jira.yml@JiraDeployInfo, parameters: { JiraState: "Pending", JiraEnvironment: ${{ parameters.JiraEnvironment }}}}
+          - ${{ parameters.preDeploySteps }}
+      on:
+        failure:
+          steps:
+            - {template: update-jira.yml@JiraDeployInfo, parameters: { JiraState: "Failed", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+        success: 
+          steps:
+            - {template: update-jira.yml@JiraDeployInfo, parameters: { JiraState: "Successful", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+      deploy:
+        steps:
+          - {template: update-jira.yml@JiraDeployInfo, parameters: { JiraState: "InProgress", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+          - ${{ parameters.deploySteps }}
