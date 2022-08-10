@@ -18,7 +18,6 @@ parameters:
   type: string
   default: ${{ parameters.JiraEnvironment }}
 
-jobs:
 - deployment: ${{ parameters.JiraEnvironment }}
   environment: ${{ parameters.environment }}
   strategy:
