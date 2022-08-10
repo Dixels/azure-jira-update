@@ -19,12 +19,10 @@ parameters:
 
 jobs:
 - deployment: ${{ parameters.JiraEnvironment }}
-  variables:
-    ${{ if eq(parameters.environment, '') }}:
-      envName: ${{parameters.JiraEnvironment}}
-    ${{ else }}:
-      envName: ${{parameters.environment}}
-  environment: $(envName)
+  ${{ if eq(parameters.environment, '') }}:
+    environment: ${{parameters.JiraEnvironment}}
+  ${{ else }}:
+    environment: ${{parameters.environment}}
   strategy:
     runOnce:
       preDeploy:
