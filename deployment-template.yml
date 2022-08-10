@@ -15,25 +15,43 @@ parameters:
   default: []
 - name: environment
   type: string
-  default: ${{ parameters.JiraEnvironment }}
-
+  default: ''
+  
+variables:
+- name: envName
+  ${{ if eq(parameters.environment, '') }}:
+    value: ${{parameters.JiraEnvironment}}
+  ${{ else }}:
+    value: ${{parameters.environment}}
 jobs:
 - deployment: ${{ parameters.JiraEnvironment }}
-  environment: ${{ parameters.environment }}
+  environment: $(envName)
   strategy:
     runOnce:
       preDeploy:
         steps:
-          - {template: update-jira.yml, parameters: { JiraState: "Pending", JiraEnvironment: ${{ parameters.JiraEnvironment }}}}
+          - template: $(Build.SourcesDirectory)/update-jira.yml
+            parameters: 
+              JiraState: "Pending"
+              JiraEnvironment: ${{ parameters.JiraEnvironment }}
           - ${{ parameters.preDeploySteps }}
       on:
         failure:
           steps:
-            - {template: update-jira.yml, parameters: { JiraState: "Failed", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+            - template: $(Build.SourcesDirectory)/update-jira.yml
+              parameters: 
+                JiraState: "Failed"
+                JiraEnvironment: ${{ parameters.JiraEnvironment }}
         success: 
           steps:
-            - {template: update-jira.yml, parameters: { JiraState: "Successful", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+            - template: $(Build.SourcesDirectory)/update-jira.yml
+              parameters: 
+                JiraState: "Successful"
+                JiraEnvironment: ${{ parameters.JiraEnvironment }}
       deploy:
         steps:
-          - {template: update-jira.yml, parameters: { JiraState: "InProgress", JiraEnvironment: ${{ parameters.JiraEnvironment }} }}
+          - template: $(Build.SourcesDirectory)/update-jira.yml
+            parameters: 
+              JiraState: "InProgress"
+              JiraEnvironment: ${{ parameters.JiraEnvironment }}
           - ${{ parameters.deploySteps }}
