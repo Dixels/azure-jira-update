@@ -25,6 +25,8 @@ jobs:
     environment:
       name: ${{parameters.environment}}
       resourceType: VirtualMachine
+    workspace:
+      clean: all
   strategy:
     runOnce:
       preDeploy:
